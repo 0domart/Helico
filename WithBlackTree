@@ -53,10 +53,7 @@ def Helicoptere(pos, NombreImage):
         return line((RC[0], RC[1]), rgbcolor='red') + line((RC[1],RC[2]), rgbcolor='red',xmin=0, xmax=40, ymin = 0 , ymax = 30) + line((RC[2],RC[3]), rgbcolor='red') + line((RC[3],RC[4]), rgbcolor='red')  + line((RC[4],RC[8]), rgbcolor='red') + line((RC[4],RC[5]), rgbcolor='black') + line((RC[5],RC[6]), rgbcolor='black') + line((RC[5],RC[7]), rgbcolor='black') + line((RC[8],RC[9]), rgbcolor='red') + line((RC[8],RC[11]), rgbcolor='red')+ line((RC[9],RC[10]), rgbcolor='red') + line((RC[9],RC[11]), rgbcolor='red') + line((RC[10],RC[12]), rgbcolor='red') + line((RC[12],RC[13]), rgbcolor='red') + line((RC[13],RC[17]), rgbcolor='black') + line((RC[13],RC[14]), rgbcolor='red') + line((RC[14],RC[18]), rgbcolor='black') + line((RC[15],RC[16]), rgbcolor='black') + line((RC[16],RC[17]), rgbcolor='black') + line((RC[17],RC[18]), rgbcolor='black') + line((RC[18],RC[19]), rgbcolor='black') + line((RC[14],RC[20]), rgbcolor='red') + line((RC[20],RC[21]), rgbcolor='red') + line((RC[21],RC[22]), rgbcolor='red') + line((RC[22],RC[0]), rgbcolor='red') + circle (RC[23], 0.4, rgbcolor='black', fill = True) + polygon([RC[8],RC[9],RC[11]], rgbcolor='lightcyan') + polygon([RC[0],RC[1],RC[2],RC[3],RC[4],RC[8],RC[11],RC[9],RC[10],RC[12],RC[13],RC[14],RC[20],RC[21],RC[22]], rgbcolor='yellow') + polygon([RC[1],RC[2],RC[10]], rgbcolor='red') # On relie certains points entre eux pour former des lignes, on crée également un cercle, des polygones qu'on remplit d'une couleur
 
 
-def Sapin(x,y,j, nbrsapin) :
-        if j > 20  :
-            if nbrsapin == 1 :
-                return line ([(0, 0), (0, 0)])
+def Sapin(x,y,j) :
         A = [vector(zip(x,y)[j]) for j in [0..len(x)-1]] #Relier les x et les y
         return polygon([A[1],A[2],A[3],A[4],A[5],A[6],A[7],A[8],A[9],A[10],A[11],A[12],A[13],A[2]], rgbcolor='green') + polygon([A[0],A[1],A[13],A[14]], rgbcolor='brown') #On relie certains points pour former le tronc en marron et d'autres pour le sapin en vert
 
@@ -88,17 +85,6 @@ def Feuo(x,y,j, Deb, Fin) :
     return line ([(0, 0), (0, 0)])
 
 
-def SapinGauche(pos, NbrImage,Deb,Fin):
-    if Deb < NbrImage :
-        if NbrImage < Fin :
-            x = [vector(pos)[j] for j in [0..8]]
-            y = [vector(pos)[j] for j in [9..18]]
-            A = [vector(zip(x,y)[j]) for j in [0..len(x)-1]] #Relier les x et les y
-            return polygon([(14.5, 2), A[2],A[3],A[4],A[5],A[6],A[7], A[8], (14.5,2)], rgbcolor='green') + polygon([(14.5, 0), A[1],A[2], (14.5,2)], rgbcolor='brown')
-        return line(((14.5,0),(14.5,7)), rgbcolor='black') + line(((12,2.5),(14.5,2)), rgbcolor='black') + line(((13,4),(14.5,4)), rgbcolor='black')
-    return line ([(0, 0), (0, 0)])
-
-
 
 
 #Toutes les constantes
@@ -119,9 +105,6 @@ Sapin2Y = [0,2,2,4,4,6,6,8,6,6,4,4,2,2,0]
 
 Sapin3X = [26,26,24,26,24.5,26,25,26.5,28,27,28.5,27,29,27,27]
 Sapin3Y = [0,2,2,4,4,6,6,8,6,6,4,4,2,2,0]
-
-m_Sapin1Gauche = matrix([[14.5,14,14,12,14,12.5,14,13,14.5],[0,0,2,2,4,4,6,6,8],[1,1,1,1,1,1,1,1,1]])
-#m_Sapin1Droite = matrix([[],[],[]])
 
 m_Eau1 = matrix([[16,16.5], [19,21], [1,1]])
 m_Eau2 = matrix([[17,17.5], [19,21], [1,1]])
@@ -265,17 +248,15 @@ AnimFeu11bis = animate([Feuo(Feu11xbis, Feu11ybis,j, 85, FinEau7) for j in [0..N
 AnimFeu12 = animate([Feu(Feu12x, Feu12y,j, 0 , 55) for j in [0..NbrImage]])
 AnimFeu12bis = animate([Feu(Feu12xbis, Feu12ybis,j, 80 , FinEau7) for j in [0..NbrImage]])
 
-AnimSapin1 = animate([Sapin(Sapin1X, Sapin1Y, j, 1)for j in [0..NbrImage]])
-AnimSapin2 = animate([Sapin(Sapin2X, Sapin2Y, j, 2)for j in [0..NbrImage]])
-AnimSapin3 = animate([Sapin(Sapin3X, Sapin3Y, j, 3)for j in [0..NbrImage]])
-AnimSapin1Gauche = animate([SapinGauche(vec(translationEau(m_Sapin1Gauche, j * 0.007 , 0,j, 20,100)), j, 20, 100)for j in [0..NbrImage]])
-#AnimSapin4 = animate([Sapin(Sapin4X, Sapin4Y, j)for j in [0..NbrImage]])
+AnimSapin1 = animate([Sapin(Sapin1X, Sapin1Y, j)for j in [0..NbrImage]])
+AnimSapin2 = animate([Sapin(Sapin2X, Sapin2Y, j)for j in [0..NbrImage]])
+AnimSapin3 = animate([Sapin(Sapin3X, Sapin3Y, j)for j in [0..NbrImage]])
 
 AnimationHelice1 = animate ([HeliceArriere(vec(rotation(Helice1, j*t/NbrImage, vec(CentreHelice)[0],vec(CentreHelice)[1], j))) for j in [0..NbrImage]])
 AnimationHelice2 = animate ([HeliceArriere(vec(rotation(Helice2, j*t/NbrImage, vec(CentreHelice)[0],vec(CentreHelice)[1], j))) for j in [0..NbrImage]])
 
 TEau = AnimEau1 + AnimEau2 + AnimEau3 + AnimEau4 + AnimEau5 + AnimEau6 + AnimEau7 + AnimEau8 + AnimEau9
-TSapin = AnimSapin1 + AnimSapin2 + AnimSapin3 +AnimSapin1Gauche #+ AnimSapin4
+TSapin = AnimSapin1 + AnimSapin2 + AnimSapin3
 THelice = AnimationHelice1 + AnimationHelice2
 TFeu = AnimFeu1 + AnimFeu1bis + AnimFeu2 + AnimFeu2bis + AnimFeu3 + AnimFeu3bis + AnimFeu4 + AnimFeu4bis +AnimFeu5 + AnimFeu5bis + AnimFeu6+ AnimFeu6bis + AnimFeu7 + AnimFeu7bis + AnimFeu8 + AnimFeu8bis +AnimFeu9 + AnimFeu9bis + AnimFeu10 + AnimFeu10bis + AnimFeu11+ AnimFeu11bis + AnimFeu12 + AnimFeu12bis
 
