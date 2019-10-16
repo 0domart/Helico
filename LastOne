@@ -3,9 +3,7 @@
 #Date du rendu : XX/XX/2019
 
 
-
 #Définition des fonctions utilisé plus tard pour animer les objets
-
 def translation(matrice, x, y): #pour déplacer une matrice passé en paramètre
     return matrix([[1,0,x],[0,1,y],[0,0,1]]) * matrice
 
