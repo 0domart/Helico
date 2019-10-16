@@ -3,23 +3,13 @@
 #Date du rendu : XX/XX/2019
 
 
-#Toutes les coordonnées x et y pour chaque élement
-
-#HelicoptereX = [0,1,4,5,6,6,4,8,7,8,8,7,7,6.5,5.5,7.5,7,6.5,5.5,5,5,4,0,0.5]
-#HelicoptereY = [24,23,23,24,24,25,25,25,24,23,22,23,21,21,21,20.5,20,20,20,20,21,22,22,22.6]
-
-#Sapin4X = [32,31,31,29,31,29.5,31,30,31.5,33,32,33.5,32,34,32]
-#Sapin4Y = [0,0,2,2,4,4,6,6,8,6,6,4,4,2,2]
-
 
 #Définition des fonctions utilisé plus tard pour animer les objets
 
-
-def translation(matrice, x, y):
+def translation(matrice, x, y): #pour déplacer une matrice passé en paramètre
     return matrix([[1,0,x],[0,1,y],[0,0,1]]) * matrice
 
-
-def translationEau(matrice, x, y,j,deb,fin):
+def translationEau(matrice, x, y,j,deb,fin): 
     if j > deb :
         if j < fin :
             return matrix([[1,0,x],[0,1,y],[0,0,1]]) * matrice
@@ -27,7 +17,7 @@ def translationEau(matrice, x, y,j,deb,fin):
 
 
 def rotation(matrice, angle, x, y, nbrImage): #Utiliser pour tourner la matrice en fonction d'un angle et d'un nbrImage car la roue tourne et se déplace horizontalement en même temps
-
+    
     x+= nbrImage * KVitesse
     return matrix ([[cos(angle), -sin(angle), x], [sin(angle), cos(angle), y], [0, 0, 1]]) * matrice
 
@@ -58,7 +48,7 @@ def Sapin(x,y,j) :
         A = [vector(zip(x,y)[j]) for j in [0..len(x)-1]] #Relier les x et les y
         return polygon([A[1],A[2],A[3],A[4],A[5],A[6],A[7],A[8],A[9],A[10],A[11],A[12],A[13],A[2]], rgbcolor='green') + polygon([A[0],A[1],A[13],A[14]], rgbcolor='brown')
 
-def Eau(pos,j,Deb,Fin) :
+def Eau(pos,j,Deb,Fin) : #Dessine un trait grace a un vecteur de l'image debut à l'image fin en sachant que l'image actuel est j
     if Deb < j :
         if j < Fin:
             return line([(pos[0], pos[2]), (pos[1], pos[3])], rgbcolor='blue')
@@ -71,11 +61,11 @@ def Feu(x,y,j, Deb, Fin) :
                 y[0] += 0.1
             y[1] += 0.06
             F = [vector(zip(x,y)[j]) for j in [0..len(x)-1]] #Relier les x et les y
-            return line((F[0], F[1]), rgbcolor ='red', thickness = 3)
+            return line((F[0], F[1]), rgbcolor ='red', thickness = 3) #Dessine un trait d'epaisseur 3 de couleur rouge
     return line ([(0, 0), (0, 0)])
 
 
-def Feuo(x,y,j, Deb, Fin) :
+def Feuo(x,y,j, Deb, Fin) : #Fait exactement comme la définition Feu mais la couleur est orange
     if Deb < j:
         if j < Fin:
             if j % 2 == 0 :
@@ -88,24 +78,33 @@ def Feuo(x,y,j, Deb, Fin) :
 
 
 #Toutes les constantes
-
-KVitesse = 0.2  #Vitesse de 0.2 soit +0.2x par image
+KVitesse = 0.2  #Vitesse de 0.2 soit +0.2x par image pour l'helicoptere
 NbrImage = 150 #Nombre total d'images
-t=-10*pi  #Angle pour tourner dans le sens inverse des aiguilles d'une montre(hélices arrières)
-Helice1 = matrix ([[cos(pi/2), cos(-pi/2)], [sin(pi/2), sin(-pi/2)],[1, 1]]) #Hélice arrière 1
-Helice2 = matrix ([[cos(0), cos(pi)], [sin(0), sin(pi)], [1, 1]]) #Hélice arrière 2
+t=-10*pi  #Angle pour tourner dans le sens inverse des aiguilles d'une montre(hélices arrières) - tourne 5 fois au total
+DebEau1 = 52
+FinEau1 = 76
+DebEau2 = 52.5
+FinEau2 = 76
+DebEau3 = 53
+FinEau3 = 76
+DebEau4 = 78
+FinEau4 = 102
+DebEau5 = 78.5
+FinEau5 = 102
+DebEau6 = 79
+FinEau6 = 102
+DebEau7 = 110
+FinEau7 = 136
+DebEau8 = 110.5
+FinEau8 = 136
+DebEau9 = 111
+FinEau9 = 136
+
+#Matrices 
+Helice1 = matrix ([[cos(pi/2), cos(-pi/2)], [sin(pi/2), sin(-pi/2)],[1, 1]])
+Helice2 = matrix ([[cos(0), cos(pi)], [sin(0), sin(pi)], [1, 1]]) 
 CentreHelice = matrix ([[0.5], [22.6], [1]]) #Centre autour duquel les hélices arrières vont tourner
 m_Helicoptere = matrix ([[0,1,4,5,6,6,4,8,7,8,8,7,7,6.5,5.5,7.5,7,6.5,5.5,5,5,4,0,0.5, 5.7, 6.3, 5, 7],[24,23,23,24,24,25,25,25,24,23,22,23,21,21,21,20.5,20,20,20,20,21,22,22,22.6,17,17, 17, 17],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]])
-
-Sapin1X = [14,14,12,14,12.5,14,13,14.5,16,15,16.5,15,17,15,15]
-Sapin1Y = [0,2,2,4,4,6,6,8,6,6,4,4,2,2,0]
-
-Sapin2X = [19,19,17,19,17.5,19,18,19.5,21,20,21.5,20,22,20,20]
-Sapin2Y = [0,2,2,4,4,6,6,8,6,6,4,4,2,2,0]
-
-Sapin3X = [26,26,24,26,24.5,26,25,26.5,28,27,28.5,27,29,27,27]
-Sapin3Y = [0,2,2,4,4,6,6,8,6,6,4,4,2,2,0]
-
 m_Eau1 = matrix([[16,16.5], [19,21], [1,1]])
 m_Eau2 = matrix([[17,17.5], [19,21], [1,1]])
 m_Eau3 = matrix([[18,18.5], [19,21], [1,1]])
@@ -116,102 +115,69 @@ m_Eau7 = matrix([[28,28.5], [19,21], [1,1]])
 m_Eau8 = matrix([[29,29.5], [19,21], [1,1]])
 m_Eau9 = matrix([[30,30.5], [19,21], [1,1]])
 
-DebEau1 = 52
-FinEau1 = 76
-DebEau2 = 52.5
-FinEau2 = 76
-DebEau3 = 53
-FinEau3 = 76
-
-DebEau4 = 78
-FinEau4 = 102
-DebEau5 = 78.5
-FinEau5 = 102
-DebEau6 = 79
-FinEau6 = 102
-
-DebEau7 = 110
-FinEau7 = 136
-DebEau8 = 110.5
-FinEau8 = 136
-DebEau9 = 111
-FinEau9 = 136
+#Vecteurs
+Sapin1X = [14,14,12,14,12.5,14,13,14.5,16,15,16.5,15,17,15,15]
+Sapin1Y = [0,2,2,4,4,6,6,8,6,6,4,4,2,2,0]
+Sapin2X = [19,19,17,19,17.5,19,18,19.5,21,20,21.5,20,22,20,20]
+Sapin2Y = [0,2,2,4,4,6,6,8,6,6,4,4,2,2,0]
+Sapin3X = [26,26,24,26,24.5,26,25,26.5,28,27,28.5,27,29,27,27]
+Sapin3Y = [0,2,2,4,4,6,6,8,6,6,4,4,2,2,0]
 
 Feu1x = [13, 13]
 Feu1y = [6 ,6]
-
 Feu1xbis = [13, 13]
 Feu1ybis = [6 ,6]
-
 Feu2x = [12, 12]
 Feu2y = [2 ,2]
-
 Feu2xbis = [12, 12]
 Feu2ybis = [2 ,2]
-
 Feu3x = [16, 16]
 Feu3y = [3 ,3]
-
 Feu3xbis = [16, 16]
 Feu3ybis = [3 ,3]
-
 Feu4x = [15, 15]
 Feu4y = [6 ,6]
-
 Feu4xbis = [15, 15]
 Feu4ybis = [6 ,6]
-
 Feu5x = [18, 18]
 Feu5y = [6 ,6]
-
 Feu5xbis = [18, 18]
 Feu5ybis = [6 ,6]
-
 Feu6x = [17, 17]
 Feu6y = [2 ,2]
-
 Feu6xbis = [17, 17]
 Feu6ybis = [2 ,2]
-
 Feu7x = [21, 21]
 Feu7y = [3 ,3]
-
 Feu7xbis = [21, 21]
 Feu7ybis = [3 ,3]
-
 Feu8x = [20, 20]
 Feu8y = [6 ,6]
-
 Feu8xbis = [20, 20]
 Feu8ybis = [6 ,6]
-
 Feu9x = [25, 25]
 Feu9y = [6 ,6]
-
 Feu9xbis = [25, 25]
 Feu9ybis = [6 ,6]
-
 Feu10x = [24, 24]
 Feu10y = [2 ,2]
-
 Feu10xbis = [24, 24]
 Feu10ybis = [2 ,2]
-
 Feu11x = [28, 28]
 Feu11y = [3 ,3]
-
 Feu11xbis = [28, 28]
 Feu11ybis = [3 ,3]
-
 Feu12x = [27, 27]
 Feu12y = [6 ,6]
-
 Feu12xbis = [27, 27]
 Feu12ybis = [6 ,6]
+
 
 #Toutes les animations
 
 AnimHelicoptere = animate([Helicoptere(vec(translation(m_Helicoptere, j * KVitesse, 0)), j)for j in [0..NbrImage]], xmin=0, ymin=0, xmax=40, ymax=30)
+AnimationHelice1 = animate ([HeliceArriere(vec(rotation(Helice1, j*t/NbrImage, vec(CentreHelice)[0],vec(CentreHelice)[1], j))) for j in [0..NbrImage]])
+AnimationHelice2 = animate ([HeliceArriere(vec(rotation(Helice2, j*t/NbrImage, vec(CentreHelice)[0],vec(CentreHelice)[1], j))) for j in [0..NbrImage]]) 
 
 AnimEau1 = animate([Eau(vec(translationEau(m_Eau1,-0.1 * (j-DebEau1 ), (j-DebEau1) * -0.5, j , DebEau1 ,FinEau1)), j, DebEau1 , FinEau1 ) for j in [0..NbrImage]])
 AnimEau2 = animate([Eau(vec(translationEau(m_Eau2,-0.1 * (j-DebEau2 ), (j-DebEau2) * -0.5, j , DebEau2 ,FinEau2)), j, DebEau2 , FinEau2 ) for j in [0..NbrImage]])
@@ -252,14 +218,13 @@ AnimSapin1 = animate([Sapin(Sapin1X, Sapin1Y, j)for j in [0..NbrImage]])
 AnimSapin2 = animate([Sapin(Sapin2X, Sapin2Y, j)for j in [0..NbrImage]])
 AnimSapin3 = animate([Sapin(Sapin3X, Sapin3Y, j)for j in [0..NbrImage]])
 
-AnimationHelice1 = animate ([HeliceArriere(vec(rotation(Helice1, j*t/NbrImage, vec(CentreHelice)[0],vec(CentreHelice)[1], j))) for j in [0..NbrImage]])
-AnimationHelice2 = animate ([HeliceArriere(vec(rotation(Helice2, j*t/NbrImage, vec(CentreHelice)[0],vec(CentreHelice)[1], j))) for j in [0..NbrImage]])
-
+#Addition des animations par thème
 TEau = AnimEau1 + AnimEau2 + AnimEau3 + AnimEau4 + AnimEau5 + AnimEau6 + AnimEau7 + AnimEau8 + AnimEau9
 TSapin = AnimSapin1 + AnimSapin2 + AnimSapin3
 THelice = AnimationHelice1 + AnimationHelice2
 TFeu = AnimFeu1 + AnimFeu1bis + AnimFeu2 + AnimFeu2bis + AnimFeu3 + AnimFeu3bis + AnimFeu4 + AnimFeu4bis +AnimFeu5 + AnimFeu5bis + AnimFeu6+ AnimFeu6bis + AnimFeu7 + AnimFeu7bis + AnimFeu8 + AnimFeu8bis +AnimFeu9 + AnimFeu9bis + AnimFeu10 + AnimFeu10bis + AnimFeu11+ AnimFeu11bis + AnimFeu12 + AnimFeu12bis
 
 AnimAll = AnimHelicoptere + TEau + TSapin + THelice + TFeu #Addition de toutes les animations
+
 #Affichage
 show (AnimAll, delay=5)
