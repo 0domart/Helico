@@ -77,7 +77,7 @@ def Eclair(x,y,j,Deb,Fin):
 #Toutes les constantes
 KVitesse = 0.2  #Vitesse de 0.2 soit +0.2x par image pour l'helicoptere
 NbrImage = 300 #Nombre total d'images
-t=-10*pi  #Angle pour tourner dans le sens inverse des aiguilles d'une montre(hélices arrières) - tourne 5 fois au total
+t=-40*pi  #Angle pour tourner dans le sens inverse des aiguilles d'une montre(hélices arrières) - tourne 5 fois au total
 DebEau1 = 152
 FinEau1 = 176
 DebEau2 = 152.5
